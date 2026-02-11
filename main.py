@@ -6,26 +6,19 @@
 
 
 
-print("--- Extracting Words from Text File ---")
+import string
 
 length = int(input("Enter Length of Words: "))
-
 
 with open("story.txt", "r") as file:
     text = file.read()
 
-
-import string
 
 for ch in string.punctuation:
     text = text.replace(ch, " ")
 
 words = text.split()
 
+result = sorted(set(w.lower() for w in words if len(w) == length))
 
-filtered = [w.lower() for w in words if len(w) == length]
-
-unique_words = sorted(set(filtered))
-
-print(f"\nWords with length {length} are: {unique_words}")
-
+print(f"Words with length {length} are: {result}")
