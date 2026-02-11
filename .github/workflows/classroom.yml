@@ -1,0 +1,61 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Case 1
+      id: case-1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Case 1
+        setup-command: ''
+        command: python main.py
+        input: '5'
+        expected-output: '[''"that'', ''are."'', ''clean'', "don''t", ''early'', ''every'',
+          ''judge'', ''look.'', ''month'', ''moved'', ''needs'', ''quick'', "she''s",
+          ''which'', ''while'', ''woman'', ''young'']'
+        comparison-method: contains
+        timeout: 10
+        max-score: 2
+    - name: Case 2
+      id: case-2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Case 2
+        setup-command: ''
+        command: python main.py
+        input: '10'
+        expected-output: "['breakfast,', 'correctly.', 'especially', 'negativity']"
+        comparison-method: contains
+        timeout: 10
+        max-score: 2
+    - name: Case 3
+      id: case-3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Case 3
+        setup-command: ''
+        command: python main.py
+        input: '15'
+        expected-output: "[]"
+        comparison-method: contains
+        timeout: 10
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        CASE-1_RESULTS: "${{steps.case-1.outputs.result}}"
+        CASE-2_RESULTS: "${{steps.case-2.outputs.result}}"
+        CASE-3_RESULTS: "${{steps.case-3.outputs.result}}"
+      with:
+        runners: case-1,case-2,case-3
