@@ -6,15 +6,10 @@
 
 
 
-import string
-
 length = int(input())
 
 with open("story.txt", "r") as file:
     text = file.read()
-
-for ch in string.punctuation:
-    text = text.replace(ch, " ")
 
 words = text.split()
 
