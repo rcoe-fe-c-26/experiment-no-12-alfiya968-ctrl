@@ -8,11 +8,10 @@
 
 import string
 
-length = int(input("Enter Length of Words: "))
+length = int(input())
 
 with open("story.txt", "r") as file:
     text = file.read()
-
 
 for ch in string.punctuation:
     text = text.replace(ch, " ")
